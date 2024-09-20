@@ -31,6 +31,7 @@ function objectToAttr(tag: string, span: ApiSpan, value: any) {
       try {
         span.setAttribute(`${tag}.${key}`, JSON.stringify(attrValue))
       } catch (e) {
+        span.recordException(e)
         // Se não for possível converter para string, define o valor como "unknown"
         span.setAttribute(`${tag}.${key}`, 'unknown')
       }
