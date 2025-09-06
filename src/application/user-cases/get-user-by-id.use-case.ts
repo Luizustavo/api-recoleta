@@ -3,38 +3,39 @@ import { Inject } from '@nestjs/common'
 import { Logger } from 'winston'
 import { ReturnCodeEnum } from '@/domain/enums/return-code.enum'
 import { IUserRepository } from '@/domain/repositories/user-repository.interface'
-import { CreateUserDto } from '../dtos/user/create-user.dto'
 import { UserDto } from '../dtos/user/user.dto'
 import { ReturnBaseDTO } from '../dtos/base/return-base.dto'
 import { UserMapper } from '../mapper/user.mapper'
-import * as bcrypt from 'bcrypt'
 
-export class CreateUserUseCase
-  implements UseCase<CreateUserDto, ReturnBaseDTO<UserDto>>
+export class GetUserByIdUseCase
+  implements UseCase<string, ReturnBaseDTO<UserDto>>
 {
   constructor(
     @Inject('winston') private readonly logger: Logger,
     private readonly userRepository: IUserRepository,
   ) {}
 
-  async execute(request: CreateUserDto): Promise<ReturnBaseDTO<UserDto>> {
-    this.logger.info('[User] CreateUserUseCase.execute - request', {
-      request: { ...request, password: '***' },
-    })
+  async execute(id: string): Promise<ReturnBaseDTO<UserDto>> {
+    this.logger.info('[User] GetUserByIdUseCase.execute - id', { id })
     const vm = new ReturnBaseDTO<UserDto>()
     try {
-      const hashedPassword = await bcrypt.hash(request.password, 10)
-      const user = UserMapper.toEntity({ ...request, password: hashedPassword })
-      await this.userRepository.saveAsync(user)
+      const user = await this.userRepository.findByIdAsync(id)
+      if (!user) {
+        vm.code = ReturnCodeEnum.NotFound
+        vm.message = 'User not found'
+        vm.success = false
+        this.logger.warn('[User] GetUserByIdUseCase.notFound', { id })
+        return vm
+      }
       vm.code = ReturnCodeEnum.Success
-      vm.message = 'User created successfully'
+      vm.message = 'User fetched successfully'
       vm.success = true
       vm.data = UserMapper.toDto(user)
-      this.logger.info('[User] CreateUserUseCase.success', { user: vm.data })
+      this.logger.info('[User] GetUserByIdUseCase.success', { user: vm.data })
     } catch (error) {
-      this.logger.error('[User] CreateUserUseCase.error', { error })
+      this.logger.error('[User] GetUserByIdUseCase.error', { error })
       vm.code = ReturnCodeEnum.InternalError
-      vm.message = 'Error creating user'
+      vm.message = 'Error fetching user'
       vm.success = false
     }
     return vm

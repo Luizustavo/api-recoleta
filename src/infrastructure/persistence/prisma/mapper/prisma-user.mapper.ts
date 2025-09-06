@@ -12,6 +12,7 @@ export class PrismaUserMapper {
     const data: Prisma.UserCreateInput = {
       email: entity.email,
       name: entity.name,
+      password: entity.password || '',
     }
 
     return data
@@ -22,6 +23,7 @@ export class PrismaUserMapper {
       {
         name: prisma.name,
         email: prisma.email,
+        password: prisma.password,
       },
       prisma.id,
     )

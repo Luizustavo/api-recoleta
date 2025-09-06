@@ -1,6 +1,7 @@
 interface Props {
   name: string
   email: string
+  password?: string
 }
 
 export class UserEntity {
@@ -22,5 +23,9 @@ export class UserEntity {
 
   get email(): string {
     return this.props.email
+  }
+
+  get password(): string | undefined {
+    return this.props.password
   }
 }

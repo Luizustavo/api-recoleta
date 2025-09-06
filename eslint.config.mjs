@@ -36,11 +36,6 @@ export default [
       parser: tsParser,
       ecmaVersion: 5,
       sourceType: 'module',
-
-      parserOptions: {
-        project: 'tsconfig.json',
-        tsconfigRootDir: '/Volumes/External/www/nest-api-template',
-      },
     },
 
     rules: {
