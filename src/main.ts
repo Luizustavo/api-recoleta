@@ -33,8 +33,24 @@ async function bootstrap() {
     .setGlobalPrefix(APP_ROUTE_PREFIX)
 
   const config = new DocumentBuilder()
-    .setTitle('Microservice Template')
-    .setVersion('1.0')
+    .setTitle('API Recoleta')
+    .setDescription('API para gestão de coleta e reciclagem de resíduos')
+    .setVersion('1.0.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
+    .addTag('auth', 'Endpoints de autenticação')
+    .addTag('user', 'Endpoints de usuários')
+    .addTag('address', 'Endpoints de endereços')
+    .addTag('waste', 'Endpoints de resíduos')
     .build()
 
   const document = SwaggerModule.createDocument(app, config)

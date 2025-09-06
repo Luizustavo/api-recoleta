@@ -32,9 +32,10 @@ export class UpdateAddressUseCase
     })
     const vm = new ReturnBaseDTO<AddressDto>()
     try {
+      const updateData = AddressMapper.toUpdateData(request.updateAddressDto)
       const updatedAddress = await this.addressRepository.update(
         request.id,
-        request.updateAddressDto,
+        updateData,
       )
       vm.code = ReturnCodeEnum.Success
       vm.message = 'Address updated successfully'

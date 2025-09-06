@@ -10,7 +10,14 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common'
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import {
+  ApiBearerAuth,
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiQuery,
+} from '@nestjs/swagger'
 
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard'
 import { CreateWasteDto } from '../../../application/dtos/waste/create-waste.dto'
@@ -23,7 +30,7 @@ import { GetAvailableWastesUseCase } from '../../../application/use-cases/waste/
 import { UpdateWasteUseCase } from '../../../application/use-cases/waste/update-waste.use-case'
 import { DeleteWasteUseCase } from '../../../application/use-cases/waste/delete-waste.use-case'
 
-@ApiTags('Waste')
+@ApiTags('waste')
 @Controller('waste')
 export class WasteController {
   constructor(
@@ -36,7 +43,11 @@ export class WasteController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Criar novo resíduo' })
+  @ApiResponse({ status: 201, description: 'Resíduo criado com sucesso' })
+  @ApiResponse({ status: 400, description: 'Dados inválidos' })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
   async create(@Body() createWasteDto: CreateWasteDto, @Request() req: any) {
     const result = await this.createWasteUseCase.execute({
       createWasteDto,
@@ -46,6 +57,13 @@ export class WasteController {
   }
 
   @Get('available')
+  @ApiOperation({ summary: 'Listar resíduos disponíveis' })
+  @ApiQuery({ name: 'wasteType', required: false, description: 'Tipo de resíduo' })
+  @ApiQuery({ name: 'location', required: false, description: 'Localização' })
+  @ApiQuery({ name: 'condition', required: false, description: 'Condição do resíduo' })
+  @ApiQuery({ name: 'page', required: false, description: 'Número da página' })
+  @ApiQuery({ name: 'limit', required: false, description: 'Limite de registros por página' })
+  @ApiResponse({ status: 200, description: 'Lista de resíduos disponíveis' })
   async getAvailable(
     @Query('wasteType') wasteType?: string,
     @Query('location') location?: string,
@@ -71,6 +89,10 @@ export class WasteController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Buscar resíduo por ID' })
+  @ApiParam({ name: 'id', description: 'ID do resíduo' })
+  @ApiResponse({ status: 200, description: 'Resíduo encontrado' })
+  @ApiResponse({ status: 404, description: 'Resíduo não encontrado' })
   async getById(@Param('id') id: string) {
     const result = await this.getWasteByIdUseCase.execute(id)
     return result
@@ -78,7 +100,13 @@ export class WasteController {
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Atualizar resíduo' })
+  @ApiParam({ name: 'id', description: 'ID do resíduo' })
+  @ApiResponse({ status: 200, description: 'Resíduo atualizado com sucesso' })
+  @ApiResponse({ status: 400, description: 'Dados inválidos' })
+  @ApiResponse({ status: 404, description: 'Resíduo não encontrado' })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
   async update(
     @Param('id') id: string,
     @Body() updateWasteDto: UpdateWasteDto,
@@ -94,7 +122,12 @@ export class WasteController {
 
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Deletar resíduo' })
+  @ApiParam({ name: 'id', description: 'ID do resíduo' })
+  @ApiResponse({ status: 200, description: 'Resíduo deletado com sucesso' })
+  @ApiResponse({ status: 404, description: 'Resíduo não encontrado' })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
   async delete(@Param('id') id: string, @Request() req: any) {
     const result = await this.deleteWasteUseCase.execute({
       wasteId: id,

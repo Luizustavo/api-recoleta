@@ -1,6 +1,8 @@
 import { AddressEntity } from '../../domain/entities/address.entity'
 import { CreateAddressDto } from '../dtos/address/create-address.dto'
+import { UpdateAddressDto } from '../dtos/address/update-address.dto'
 import { AddressDto } from '../dtos/address/address.dto'
+import { parseCoordinate } from '../validators/coordinate.validator'
 
 export class AddressMapper {
   private constructor() {
@@ -38,9 +40,31 @@ export class AddressMapper {
       state: request.state,
       country: request.country || 'Brasil',
       zipCode: request.zipCode,
-      longitude: request.longitude,
-      latitude: request.latitude,
+      longitude: parseCoordinate(request.longitude, 'longitude'),
+      latitude: parseCoordinate(request.latitude, 'latitude'),
       userId,
     })
+  }
+
+  public static toUpdateData(
+    request: UpdateAddressDto,
+  ): Partial<AddressEntity> {
+    const updateData: any = {}
+
+    if (request.street !== undefined) updateData.street = request.street
+    if (request.number !== undefined) updateData.number = request.number
+    if (request.city !== undefined) updateData.city = request.city
+    if (request.state !== undefined) updateData.state = request.state
+    if (request.country !== undefined) updateData.country = request.country
+    if (request.zipCode !== undefined) updateData.zipCode = request.zipCode
+
+    if (request.longitude !== undefined) {
+      updateData.longitude = parseCoordinate(request.longitude, 'longitude')
+    }
+    if (request.latitude !== undefined) {
+      updateData.latitude = parseCoordinate(request.latitude, 'latitude')
+    }
+
+    return updateData
   }
 }

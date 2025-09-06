@@ -32,8 +32,8 @@ model Address {
   state     String
   country   String   @default("Brasil")
   zipCode   String
-  longitude Float?
-  latitude  Float?
+  longitude Float
+  latitude  Float
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   wastes    Waste[]
