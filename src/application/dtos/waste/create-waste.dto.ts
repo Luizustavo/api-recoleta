@@ -181,7 +181,7 @@ export class AddressDataDto {
     type: 'string',
   })
   @IsString()
-  @IsCoordinate('latitude')
+  @IsCoordinate()
   latitude: string
 
   @ApiProperty({
@@ -191,7 +191,7 @@ export class AddressDataDto {
     type: 'string',
   })
   @IsString()
-  @IsCoordinate('longitude')
+  @IsCoordinate()
   longitude: string
 }
 

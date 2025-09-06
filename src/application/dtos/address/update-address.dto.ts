@@ -51,23 +51,15 @@ export class UpdateAddressDto {
   @IsOptional()
   zipCode?: string
 
-  @ApiPropertyOptional({
-    description: 'Longitude para geolocalização',
-    example: '-43.17728',
-    type: 'string',
-  })
-  @IsString()
+  @IsCoordinate()
   @IsOptional()
-  @IsCoordinate('longitude')
   longitude?: string
 
-  @ApiPropertyOptional({
-    description: 'Latitude para geolocalização',
-    example: '-22.9668',
-    type: 'string',
-  })
-  @IsString()
+  /**
+   * Latitude para atualização de endereços
+   * @example "-23.5505"
+   */
+  @IsCoordinate()
   @IsOptional()
-  @IsCoordinate('latitude')
   latitude?: string
 }

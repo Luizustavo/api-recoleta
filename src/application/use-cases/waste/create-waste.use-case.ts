@@ -4,7 +4,6 @@ import { ReturnBaseDTO } from '../../dtos/base/return-base.dto'
 import { CreateWasteDto } from '../../dtos/waste/create-waste.dto'
 import { WasteDto } from '../../dtos/waste/waste.dto'
 import { WasteMapper } from '../../mapper/waste.mapper'
-import { parseCoordinate } from '../../validators/coordinate.validator'
 
 import { WasteEntity } from '../../../domain/entities/waste.entity'
 import { AddressEntity } from '../../../domain/entities/address.entity'
@@ -60,14 +59,8 @@ export class CreateWasteUseCase {
           state: createWasteDto.address.state,
           country: 'Brasil',
           zipCode: createWasteDto.address.zipCode,
-          latitude: parseCoordinate(
-            createWasteDto.address.latitude,
-            'latitude',
-          ),
-          longitude: parseCoordinate(
-            createWasteDto.address.longitude,
-            'longitude',
-          ),
+          latitude: createWasteDto.address.latitude,
+          longitude: createWasteDto.address.longitude,
           userId,
         })
 

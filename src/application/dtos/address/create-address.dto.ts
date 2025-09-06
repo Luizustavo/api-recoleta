@@ -53,7 +53,7 @@ export class CreateAddressDto {
     type: 'string',
   })
   @IsString()
-  @IsCoordinate('longitude')
+  @IsCoordinate()
   longitude: string
 
   @ApiProperty({
@@ -62,6 +62,6 @@ export class CreateAddressDto {
     type: 'string',
   })
   @IsString()
-  @IsCoordinate('latitude')
+  @IsCoordinate()
   latitude: string
 }

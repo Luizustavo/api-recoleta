@@ -1,42 +1,59 @@
-import { registerDecorator, ValidationOptions } from 'class-validator'
+import {
+  registerDecorator,
+  ValidationOptions,
+  ValidationArguments,
+} from 'class-validator'
 
-export function IsCoordinate(
-  type: 'latitude' | 'longitude',
-  validationOptions?: ValidationOptions,
-) {
+/**
+ * Custom validator for coordinates (latitude and longitude)
+ * Validates string format and bounds without converting to number
+ */
+export function IsCoordinate(validationOptions?: ValidationOptions) {
   return function (object: object, propertyName: string) {
     registerDecorator({
-      name: 'isCoordinate',
+      name: 'IsCoordinate',
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
       validator: {
-        validate(value: any) {
+        validate(value: any, args: ValidationArguments) {
           if (typeof value !== 'string') {
             return false
           }
 
-          const numValue = parseFloat(value)
-
-          if (isNaN(numValue)) {
+          const coordinate = parseFloat(value)
+          if (isNaN(coordinate)) {
             return false
           }
 
-          if (type === 'latitude') {
-            return numValue >= -90 && numValue <= 90
-          } else if (type === 'longitude') {
-            return numValue >= -180 && numValue <= 180
+          // Determine if this is latitude or longitude based on property name
+          const isLatitude = args.property.toLowerCase().includes('lat')
+          const isLongitude = args.property.toLowerCase().includes('lon')
+
+          if (isLatitude) {
+            return coordinate >= -90 && coordinate <= 90
+          }
+          
+          if (isLongitude) {
+            return coordinate >= -180 && coordinate <= 180
           }
 
-          return false
+          // Fallback: assume it's a general coordinate (use longitude bounds)
+          return coordinate >= -180 && coordinate <= 180
         },
-        defaultMessage() {
-          if (type === 'latitude') {
-            return 'Latitude must be a valid number between -90 and 90'
-          } else if (type === 'longitude') {
-            return 'Longitude must be a valid number between -180 and 180'
+        defaultMessage(args: ValidationArguments) {
+          const isLatitude = args.property.toLowerCase().includes('lat')
+          const isLongitude = args.property.toLowerCase().includes('lon')
+
+          if (isLatitude) {
+            return 'Latitude deve estar entre -90 e 90'
           }
-          return 'Invalid coordinate'
+          
+          if (isLongitude) {
+            return 'Longitude deve estar entre -180 e 180'
+          }
+
+          return 'Coordenada deve ser um número válido'
         },
       },
     })
@@ -44,25 +61,23 @@ export function IsCoordinate(
 }
 
 /**
- * Converte string de coordenada para número, validando os limites
+ * Validates coordinate format without conversion (utility function)
+ * @param coordinate - The coordinate string to validate
+ * @param type - Type of coordinate for proper bounds checking
+ * @returns true if valid, false otherwise
  */
-export function parseCoordinate(
-  value: string,
+export function isValidCoordinate(
+  coordinate: string,
   type: 'latitude' | 'longitude',
-): number {
-  const numValue = parseFloat(value)
+): boolean {
+  if (typeof coordinate !== 'string') return false
 
-  if (isNaN(numValue)) {
-    throw new Error(`Invalid ${type}: must be a valid number`)
+  const num = parseFloat(coordinate)
+  if (isNaN(num)) return false
+
+  if (type === 'latitude') {
+    return num >= -90 && num <= 90
+  } else {
+    return num >= -180 && num <= 180
   }
-
-  if (type === 'latitude' && (numValue < -90 || numValue > 90)) {
-    throw new Error('Latitude must be between -90 and 90')
-  }
-
-  if (type === 'longitude' && (numValue < -180 || numValue > 180)) {
-    throw new Error('Longitude must be between -180 and 180')
-  }
-
-  return numValue
 }

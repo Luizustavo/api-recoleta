@@ -5,8 +5,8 @@ interface Props {
   state: string
   country: string
   zipCode: string
-  longitude?: number
-  latitude?: number
+  longitude?: string
+  latitude?: string
   userId: string
   createdAt?: Date
   updatedAt?: Date
@@ -53,11 +53,11 @@ export class AddressEntity {
     return this.props.zipCode
   }
 
-  get longitude(): number | undefined {
+  get longitude(): string | undefined {
     return this.props.longitude
   }
 
-  get latitude(): number | undefined {
+  get latitude(): string | undefined {
     return this.props.latitude
   }
 

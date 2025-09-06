@@ -2,7 +2,6 @@ import { AddressEntity } from '../../domain/entities/address.entity'
 import { CreateAddressDto } from '../dtos/address/create-address.dto'
 import { UpdateAddressDto } from '../dtos/address/update-address.dto'
 import { AddressDto } from '../dtos/address/address.dto'
-import { parseCoordinate } from '../validators/coordinate.validator'
 
 export class AddressMapper {
   private constructor() {
@@ -40,8 +39,8 @@ export class AddressMapper {
       state: request.state,
       country: request.country || 'Brasil',
       zipCode: request.zipCode,
-      longitude: parseCoordinate(request.longitude, 'longitude'),
-      latitude: parseCoordinate(request.latitude, 'latitude'),
+      longitude: request.longitude,
+      latitude: request.latitude,
       userId,
     })
   }
@@ -57,13 +56,9 @@ export class AddressMapper {
     if (request.state !== undefined) updateData.state = request.state
     if (request.country !== undefined) updateData.country = request.country
     if (request.zipCode !== undefined) updateData.zipCode = request.zipCode
-
-    if (request.longitude !== undefined) {
-      updateData.longitude = parseCoordinate(request.longitude, 'longitude')
-    }
-    if (request.latitude !== undefined) {
-      updateData.latitude = parseCoordinate(request.latitude, 'latitude')
-    }
+    if (request.longitude !== undefined)
+      updateData.longitude = request.longitude
+    if (request.latitude !== undefined) updateData.latitude = request.latitude
 
     return updateData
   }
