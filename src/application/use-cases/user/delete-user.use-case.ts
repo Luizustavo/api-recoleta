@@ -1,9 +1,9 @@
-import { UseCase } from './use-case.interface'
+import { UseCase } from '../use-case.interface'
 import { Inject } from '@nestjs/common'
 import { Logger } from 'winston'
 import { ReturnCodeEnum } from '@/domain/enums/return-code.enum'
 import { IUserRepository } from '@/domain/repositories/user-repository.interface'
-import { ReturnBaseDTO } from '../dtos/base/return-base.dto'
+import { ReturnBaseDTO } from '../../dtos/base/return-base.dto'
 
 export class DeleteUserUseCase implements UseCase<string, ReturnBaseDTO<null>> {
   constructor(

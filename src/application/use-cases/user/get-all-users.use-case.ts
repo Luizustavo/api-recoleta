@@ -1,11 +1,11 @@
-import { UseCase } from './use-case.interface'
+import { UseCase } from '../use-case.interface'
 import { Inject } from '@nestjs/common'
 import { Logger } from 'winston'
 import { ReturnCodeEnum } from '@/domain/enums/return-code.enum'
 import { IUserRepository } from '@/domain/repositories/user-repository.interface'
-import { UserDto } from '../dtos/user/user.dto'
-import { ReturnBaseDTO } from '../dtos/base/return-base.dto'
-import { UserMapper } from '../mapper/user.mapper'
+import { UserDto } from '../../dtos/user/user.dto'
+import { ReturnBaseDTO } from '../../dtos/base/return-base.dto'
+import { UserMapper } from '../../mapper/user.mapper'
 
 export class GetAllUsersUseCase
   implements UseCase<{ skip?: number; take?: number }, ReturnBaseDTO<UserDto[]>>

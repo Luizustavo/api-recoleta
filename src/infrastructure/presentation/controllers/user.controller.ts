@@ -13,11 +13,11 @@ import {
   HttpStatus,
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import { CreateUserUseCase } from '@/application/user-cases/create-user.use-case'
-import { GetAllUsersUseCase } from '@/application/user-cases/get-all-users.use-case'
-import { GetUserByIdUseCase } from '@/application/user-cases/get-user-by-id.use-case'
-import { UpdateUserUseCase } from '@/application/user-cases/update-user.use-case'
-import { DeleteUserUseCase } from '@/application/user-cases/delete-user.use-case'
+import { CreateUserUseCase } from '@/application/use-cases/user/create-user.use-case'
+import { GetAllUsersUseCase } from '@/application/use-cases/user/get-all-users.use-case'
+import { GetUserByIdUseCase } from '@/application/use-cases/user/get-user-by-id.use-case'
+import { UpdateUserUseCase } from '@/application/use-cases/user/update-user.use-case'
+import { DeleteUserUseCase } from '@/application/use-cases/user/delete-user.use-case'
 
 @Controller({
   path: 'user',

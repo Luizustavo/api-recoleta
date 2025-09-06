@@ -21,6 +21,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   addresses Address[]
+  wastes    Waste[]
 }
 
 model Address {
@@ -35,6 +36,57 @@ model Address {
   latitude  Float?
   userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  wastes    Waste[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Waste {
+  id                    String      @id @default(auto()) @map("_id") @db.ObjectId
+  wasteType             WasteType
+  weight                Float
+  quantity              Int
+  unit                  UnitType
+  condition             ConditionType
+  hasPackaging          Boolean
+  discardDate           DateTime
+  additionalDescription String?
+  images                String[]
+  status                WasteStatus @default(AVAILABLE)
+  userId                String      @db.ObjectId
+  user                  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  addressId             String      @db.ObjectId
+  address               Address     @relation(fields: [addressId], references: [id], onDelete: Cascade)
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+}
+
+enum WasteType {
+  ELECTRONICS
+  ORGANIC
+  PLASTIC
+  PAPER
+  GLASS
+  METAL
+  WOOD
+  TEXTILE
+  MISCELLANEOUS
+}
+
+enum UnitType {
+  KG
+  LITERS
+  UNITS
+}
+
+enum ConditionType {
+  NEW
+  USED
+  DAMAGED
+}
+
+enum WasteStatus {
+  AVAILABLE
+  REQUESTED
+  COLLECTED
 }

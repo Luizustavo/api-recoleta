@@ -10,8 +10,8 @@ import {
 import { ApiTags } from '@nestjs/swagger'
 import { LoginDto } from '@/application/dtos/auth/login.dto'
 import { ValidateTokenDto } from '@/application/dtos/auth/validate-token.dto'
-import { LoginUseCase } from '@/application/user-cases/login.use-case'
-import { ValidateTokenUseCase } from '@/application/user-cases/validate-token.use-case'
+import { LoginUseCase } from '@/application/use-cases/auth/login.use-case'
+import { ValidateTokenUseCase } from '@/application/use-cases/auth/validate-token.use-case'
 
 @Controller('auth')
 @ApiTags('auth')

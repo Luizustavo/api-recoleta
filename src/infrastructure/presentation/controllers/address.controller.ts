@@ -14,11 +14,11 @@ import {
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard'
 import { CreateAddressDto } from '../../../application/dtos/address/create-address.dto'
 import { UpdateAddressDto } from '../../../application/dtos/address/update-address.dto'
-import { CreateAddressUseCase } from '../../../application/user-cases/create-address.use-case'
-import { GetAllAddressesUseCase } from '../../../application/user-cases/get-all-addresses.use-case'
-import { GetAddressByIdUseCase } from '../../../application/user-cases/get-address-by-id.use-case'
-import { UpdateAddressUseCase } from '../../../application/user-cases/update-address.use-case'
-import { DeleteAddressUseCase } from '../../../application/user-cases/delete-address.use-case'
+import { CreateAddressUseCase } from '../../../application/use-cases/address/create-address.use-case'
+import { GetAllAddressesUseCase } from '../../../application/use-cases/address/get-all-addresses.use-case'
+import { GetAddressByIdUseCase } from '../../../application/use-cases/address/get-address-by-id.use-case'
+import { UpdateAddressUseCase } from '../../../application/use-cases/address/update-address.use-case'
+import { DeleteAddressUseCase } from '../../../application/use-cases/address/delete-address.use-case'
 
 @Controller('address')
 @UseGuards(JwtAuthGuard)

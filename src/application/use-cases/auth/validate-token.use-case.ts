@@ -1,10 +1,10 @@
-import { UseCase } from './use-case.interface'
+import { UseCase } from '../use-case.interface'
 import { Injectable, Inject } from '@nestjs/common'
 import { Logger } from 'winston'
 import { JwtService } from '@nestjs/jwt'
 import { ReturnCodeEnum } from '@/domain/enums/return-code.enum'
-import { ValidateTokenResponseDto } from '../dtos/auth/auth-response.dto'
-import { ReturnBaseDTO } from '../dtos/base/return-base.dto'
+import { ValidateTokenResponseDto } from '../../dtos/auth/auth-response.dto'
+import { ReturnBaseDTO } from '../../dtos/base/return-base.dto'
 
 @Injectable()
 export class ValidateTokenUseCase

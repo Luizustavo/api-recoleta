@@ -1,12 +1,12 @@
-import { UseCase } from './use-case.interface'
+import { UseCase } from '../use-case.interface'
 import { Injectable, Inject } from '@nestjs/common'
 import { Logger } from 'winston'
 import { JwtService } from '@nestjs/jwt'
 import { ReturnCodeEnum } from '@/domain/enums/return-code.enum'
 import { IUserRepository } from '@/domain/repositories/user-repository.interface'
-import { LoginDto } from '../dtos/auth/login.dto'
-import { LoginResponseDto } from '../dtos/auth/auth-response.dto'
-import { ReturnBaseDTO } from '../dtos/base/return-base.dto'
+import { LoginDto } from '../../dtos/auth/login.dto'
+import { LoginResponseDto } from '../../dtos/auth/auth-response.dto'
+import { ReturnBaseDTO } from '../../dtos/base/return-base.dto'
 import * as bcrypt from 'bcrypt'
 
 @Injectable()

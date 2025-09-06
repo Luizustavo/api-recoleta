@@ -1,12 +1,12 @@
-import { UseCase } from './use-case.interface'
+import { UseCase } from '../use-case.interface'
 import { Injectable, Inject } from '@nestjs/common'
 import { Logger } from 'winston'
 import { ReturnCodeEnum } from '@/domain/enums/return-code.enum'
-import { AddressRepositoryInterface } from '../../domain/repositories/address-repository.interface'
-import { AddressDto } from '../dtos/address/address.dto'
-import { ReturnBaseDTO } from '../dtos/base/return-base.dto'
-import { AddressMapper } from '../mapper/address.mapper'
-import { ADDRESS_REPOSITORY_TOKEN } from '../../infrastructure/persistence/constants'
+import { AddressRepositoryInterface } from '../../../domain/repositories/address-repository.interface'
+import { AddressDto } from '../../dtos/address/address.dto'
+import { ReturnBaseDTO } from '../../dtos/base/return-base.dto'
+import { AddressMapper } from '../../mapper/address.mapper'
+import { ADDRESS_REPOSITORY_TOKEN } from '../../../infrastructure/persistence/constants'
 
 @Injectable()
 export class GetAllAddressesUseCase
