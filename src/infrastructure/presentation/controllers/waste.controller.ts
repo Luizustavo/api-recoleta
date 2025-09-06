@@ -27,6 +27,7 @@ import { PaginationRequest } from '../../../application/dtos/base/pagination-req
 import { CreateWasteUseCase } from '../../../application/use-cases/waste/create-waste.use-case'
 import { GetWasteByIdUseCase } from '../../../application/use-cases/waste/get-waste-by-id.use-case'
 import { GetAvailableWastesUseCase } from '../../../application/use-cases/waste/get-available-wastes.use-case'
+import { GetUserWastesUseCase } from '../../../application/use-cases/waste/get-user-wastes.use-case'
 import { UpdateWasteUseCase } from '../../../application/use-cases/waste/update-waste.use-case'
 import { DeleteWasteUseCase } from '../../../application/use-cases/waste/delete-waste.use-case'
 
@@ -37,6 +38,7 @@ export class WasteController {
     private readonly createWasteUseCase: CreateWasteUseCase,
     private readonly getWasteByIdUseCase: GetWasteByIdUseCase,
     private readonly getAvailableWastesUseCase: GetAvailableWastesUseCase,
+    private readonly getUserWastesUseCase: GetUserWastesUseCase,
     private readonly updateWasteUseCase: UpdateWasteUseCase,
     private readonly deleteWasteUseCase: DeleteWasteUseCase,
   ) {}
@@ -56,20 +58,60 @@ export class WasteController {
     return result
   }
 
+  @Get('my-wastes')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Listar resíduos do usuário logado' })
+  @ApiQuery({ name: 'page', required: false, description: 'Número da página' })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    description: 'Limite de registros por página',
+  })
+  @ApiResponse({ status: 200, description: 'Lista de resíduos do usuário' })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
+  async getMyWastes(
+    @Request() req: any,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    const pagination = new PaginationRequest()
+    pagination.page = page ? Number(page) : 1
+    pagination.limit = limit ? Number(limit) : 10
+
+    const result = await this.getUserWastesUseCase.execute({
+      userId: req.user.id,
+      pagination,
+    })
+    return result
+  }
+
   @Get('available')
   @ApiOperation({ summary: 'Listar resíduos disponíveis' })
-  @ApiQuery({ name: 'wasteType', required: false, description: 'Tipo de resíduo' })
+  @ApiQuery({
+    name: 'wasteType',
+    required: false,
+    description: 'Tipo de resíduo',
+  })
   @ApiQuery({ name: 'location', required: false, description: 'Localização' })
-  @ApiQuery({ name: 'condition', required: false, description: 'Condição do resíduo' })
+  @ApiQuery({
+    name: 'condition',
+    required: false,
+    description: 'Condição do resíduo',
+  })
   @ApiQuery({ name: 'page', required: false, description: 'Número da página' })
-  @ApiQuery({ name: 'limit', required: false, description: 'Limite de registros por página' })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    description: 'Limite de registros por página',
+  })
   @ApiResponse({ status: 200, description: 'Lista de resíduos disponíveis' })
   async getAvailable(
     @Query('wasteType') wasteType?: string,
     @Query('location') location?: string,
     @Query('condition') condition?: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
   ) {
     const filters = {
       ...(wasteType && { wasteType }),
@@ -78,8 +120,8 @@ export class WasteController {
     }
 
     const pagination = new PaginationRequest()
-    pagination.page = Number(page)
-    pagination.limit = Number(limit)
+    pagination.page = page ? Number(page) : 1
+    pagination.limit = limit ? Number(limit) : 10
 
     const result = await this.getAvailableWastesUseCase.execute({
       filters: Object.keys(filters).length > 0 ? filters : undefined,

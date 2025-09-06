@@ -22,6 +22,7 @@ import { ValidateTokenUseCase } from '@/application/use-cases/auth/validate-toke
 import { CreateWasteUseCase } from '@/application/use-cases/waste/create-waste.use-case'
 import { GetWasteByIdUseCase } from '@/application/use-cases/waste/get-waste-by-id.use-case'
 import { GetAvailableWastesUseCase } from '@/application/use-cases/waste/get-available-wastes.use-case'
+import { GetUserWastesUseCase } from '@/application/use-cases/waste/get-user-wastes.use-case'
 import { UpdateWasteUseCase } from '@/application/use-cases/waste/update-waste.use-case'
 import { DeleteWasteUseCase } from '@/application/use-cases/waste/delete-waste.use-case'
 
@@ -53,6 +54,7 @@ import { DeleteWasteUseCase } from '@/application/use-cases/waste/delete-waste.u
     CreateWasteUseCase,
     GetWasteByIdUseCase,
     GetAvailableWastesUseCase,
+    GetUserWastesUseCase,
     UpdateWasteUseCase,
     DeleteWasteUseCase,
   ],
