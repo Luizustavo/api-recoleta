@@ -39,8 +39,14 @@ export class UserController {
   }
 
   @Get()
-  async findAll(@Query('skip') skip?: number, @Query('take') take?: number) {
-    return await this.getAllUsersUseCase.execute({ skip, take })
+  async findAll(@Query('skip') skip?: string, @Query('take') take?: string) {
+    const skipNum = skip ? parseInt(skip, 10) : undefined
+    const takeNum = take ? parseInt(take, 10) : undefined
+
+    return await this.getAllUsersUseCase.execute({
+      skip: isNaN(skipNum) ? undefined : skipNum,
+      take: isNaN(takeNum) ? undefined : takeNum,
+    })
   }
 
   @Get(':id')

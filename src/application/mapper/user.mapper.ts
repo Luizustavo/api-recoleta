@@ -22,6 +22,7 @@ export class UserMapper {
     return new UserEntity({
       name: request.name,
       email: request.email,
+      password: request.password,
     })
   }
 }
