@@ -40,7 +40,7 @@ export class WasteController {
   async create(@Body() createWasteDto: CreateWasteDto, @Request() req: any) {
     const result = await this.createWasteUseCase.execute({
       createWasteDto,
-      userId: req.user.userId,
+      userId: req.user.id,
     })
     return result
   }
@@ -87,7 +87,7 @@ export class WasteController {
     const result = await this.updateWasteUseCase.execute({
       wasteId: id,
       updateWasteDto,
-      userId: req.user.userId,
+      userId: req.user.id,
     })
     return result
   }
@@ -98,7 +98,7 @@ export class WasteController {
   async delete(@Param('id') id: string, @Request() req: any) {
     const result = await this.deleteWasteUseCase.execute({
       wasteId: id,
-      userId: req.user.userId,
+      userId: req.user.id,
     })
     return result
   }

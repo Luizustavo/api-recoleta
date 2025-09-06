@@ -34,69 +34,65 @@ export enum ConditionTypeEnum {
 
 export class WasteDataDto {
   @IsEnum(WasteTypeEnum)
-  tipoResiduo: string
+  wasteType: string
 
   @IsNumber()
-  peso: number
+  weight: number
 
   @IsNumber()
-  quantidade: number
+  quantity: number
 
   @IsEnum(UnitTypeEnum)
-  unidade: string
+  unit: string
 
   @IsEnum(ConditionTypeEnum)
-  condicao: string
+  condition: string
 
-  @IsString()
-  @IsEnum(['sim', 'não'])
-  embalagem: string
+  @IsBoolean()
+  hasPackaging: boolean
 
   @IsDateString()
-  dataDescarte: string
-
-  @IsString()
-  horaDescarte: string
+  discardDate: string
 
   @IsString()
   @IsOptional()
-  descricaoAdicional?: string
+  additionalDescription?: string
 
   @IsArray()
   @IsOptional()
-  imagens?: string[]
+  images?: string[]
 }
 
 export class AddressDataDto {
   @IsString()
-  rua: string
+  street: string
 
   @IsString()
-  numero: string
-
-  @IsString()
-  @IsOptional()
-  complemento?: string
-
-  @IsString()
-  bairro: string
-
-  @IsString()
-  cidade: string
-
-  @IsString()
-  estado: string
-
-  @IsString()
-  cep: string
+  number: string
 
   @IsString()
   @IsOptional()
-  referencia?: string
+  complement?: string
+
+  @IsString()
+  neighborhood: string
+
+  @IsString()
+  city: string
+
+  @IsString()
+  state: string
+
+  @IsString()
+  zipCode: string
+
+  @IsString()
+  @IsOptional()
+  reference?: string
 
   @IsBoolean()
   @IsOptional()
-  principal?: boolean
+  main?: boolean
 }
 
 export class CreateWasteDto {

@@ -251,7 +251,159 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 | `DELETE` | `/api/waste/{id}` | Deletar resíduo |
 | `POST` | `/api/waste/{id}/collect` | Solicitar coleta |
 
-## 📊 Modelos de Dados
+## � Exemplos de Payload
+
+### Criar Resíduo - POST /api/waste
+
+```json
+{
+  "waste": {
+    "wasteType": "ELECTRONICS",
+    "weight": 3.2,
+    "quantity": 1,
+    "unit": "KG",
+    "condition": "USED",
+    "hasPackaging": true,
+    "discardDate": "2025-09-10T15:30:00.000Z",
+    "additionalDescription": "Notebook Dell Inspiron funcionando parcialmente, tela com risco, carregador incluído. Ideal para peças ou reparo.",
+    "images": [
+      "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/...",
+      "data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+    ]
+  },
+  "address": {
+    "street": "Rua das Palmeiras",
+    "number": "456",
+    "complement": "Apartamento 12B",
+    "neighborhood": "Vila Madalena",
+    "city": "São Paulo",
+    "state": "SP",
+    "zipCode": "05435-020",
+    "reference": "Próximo ao metrô Vila Madalena",
+    "main": false
+  }
+}
+```
+
+### Outros Exemplos por Categoria
+
+#### Resíduo Orgânico
+```json
+{
+  "waste": {
+    "wasteType": "ORGANIC",
+    "weight": 5.0,
+    "quantity": 2,
+    "unit": "KG",
+    "condition": "NEW",
+    "hasPackaging": false,
+    "discardDate": "2025-09-06T08:00:00.000Z",
+    "additionalDescription": "Cascas de frutas e restos vegetais para compostagem",
+    "images": []
+  },
+  "address": {
+    "street": "Rua Augusta",
+    "number": "1200",
+    "neighborhood": "Consolação",
+    "city": "São Paulo",
+    "state": "SP",
+    "zipCode": "01305-100",
+    "main": true
+  }
+}
+```
+
+#### Plástico
+```json
+{
+  "waste": {
+    "wasteType": "PLASTIC",
+    "weight": 1.5,
+    "quantity": 10,
+    "unit": "UNITS",
+    "condition": "USED",
+    "hasPackaging": true,
+    "discardDate": "2025-09-07T14:00:00.000Z",
+    "additionalDescription": "Garrafas PET de 500ml limpas e sem rótulo",
+    "images": ["data:image/jpeg;base64,..."]
+  },
+  "address": {
+    "street": "Avenida Paulista",
+    "number": "2000",
+    "complement": "Loja 15",
+    "neighborhood": "Bela Vista",
+    "city": "São Paulo",
+    "state": "SP",
+    "zipCode": "01310-200",
+    "reference": "Em frente ao MASP",
+    "main": false
+  }
+}
+```
+
+#### Papel
+```json
+{
+  "waste": {
+    "wasteType": "PAPER",
+    "weight": 2.8,
+    "quantity": 50,
+    "unit": "UNITS",
+    "condition": "USED",
+    "hasPackaging": false,
+    "discardDate": "2025-09-08T10:30:00.000Z",
+    "additionalDescription": "Revistas e jornais em bom estado de conservação",
+    "images": []
+  },
+  "address": {
+    "street": "Rua Oscar Freire",
+    "number": "300",
+    "neighborhood": "Jardins",
+    "city": "São Paulo",
+    "state": "SP",
+    "zipCode": "01426-000",
+    "main": true
+  }
+}
+```
+
+### Valores Aceitos pelos Enums
+
+#### Tipos de Resíduo (wasteType):
+- `ELECTRONICS` - Eletrônicos
+- `ORGANIC` - Orgânicos  
+- `PLASTIC` - Plásticos
+- `PAPER` - Papel
+- `GLASS` - Vidros
+- `METAL` - Metais
+- `WOOD` - Madeira
+- `TEXTILE` - Têxteis
+- `MISCELLANEOUS` - Diversos
+
+#### Unidades de Medida (unit):
+- `KG` - Quilogramas
+- `LITERS` - Litros
+- `UNITS` - Unidades
+
+#### Condições (condition):
+- `NEW` - Novo
+- `USED` - Usado
+- `DAMAGED` - Danificado
+
+#### Status do Resíduo (status):
+- `AVAILABLE` - Disponível (padrão)
+- `REQUESTED` - Solicitado
+- `COLLECTED` - Coletado
+
+**Notas Importantes:**
+- `discardDate` deve estar no formato ISO 8601: `YYYY-MM-DDTHH:MM:SS.sssZ`
+- `images` é um array de strings em formato base64 (opcional)
+- `userId` e `addressId` são inseridos automaticamente pela API baseados na autenticação
+- `hasPackaging` é um boolean (true/false)
+- Todos os campos do `address` são obrigatórios exceto `complement`, `reference` e `main`
+- Se `main` for `true`, este será o endereço principal do usuário
+
+## �📊 Modelos de Dados
 
 ### Usuário
 ```typescript

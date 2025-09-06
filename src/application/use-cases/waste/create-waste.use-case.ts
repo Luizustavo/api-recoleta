@@ -43,22 +43,22 @@ export class CreateWasteUseCase {
       // Check if we have a similar address
       let address = existingAddresses.find(
         (addr) =>
-          addr.street === createWasteDto.address.rua &&
-          addr.number === createWasteDto.address.numero &&
-          addr.city === createWasteDto.address.cidade &&
-          addr.state === createWasteDto.address.estado &&
-          addr.zipCode === createWasteDto.address.cep,
+          addr.street === createWasteDto.address.street &&
+          addr.number === createWasteDto.address.number &&
+          addr.city === createWasteDto.address.city &&
+          addr.state === createWasteDto.address.state &&
+          addr.zipCode === createWasteDto.address.zipCode,
       )
 
       if (!address) {
         // Create address if not exists
         const addressEntity = new AddressEntity({
-          street: createWasteDto.address.rua,
-          number: createWasteDto.address.numero,
-          city: createWasteDto.address.cidade,
-          state: createWasteDto.address.estado,
+          street: createWasteDto.address.street,
+          number: createWasteDto.address.number,
+          city: createWasteDto.address.city,
+          state: createWasteDto.address.state,
           country: 'Brasil',
-          zipCode: createWasteDto.address.cep,
+          zipCode: createWasteDto.address.zipCode,
           userId,
         })
 
@@ -69,20 +69,18 @@ export class CreateWasteUseCase {
       }
 
       // Create waste entity
-      const discardDateTime = new Date(
-        `${createWasteDto.waste.dataDescarte}T${createWasteDto.waste.horaDescarte}`,
-      )
+      const discardDateTime = new Date(createWasteDto.waste.discardDate)
 
       const wasteEntity = new WasteEntity({
-        wasteType: createWasteDto.waste.tipoResiduo,
-        weight: createWasteDto.waste.peso,
-        quantity: createWasteDto.waste.quantidade,
-        unit: createWasteDto.waste.unidade,
-        condition: createWasteDto.waste.condicao,
-        hasPackaging: createWasteDto.waste.embalagem === 'sim',
+        wasteType: createWasteDto.waste.wasteType,
+        weight: createWasteDto.waste.weight,
+        quantity: createWasteDto.waste.quantity,
+        unit: createWasteDto.waste.unit,
+        condition: createWasteDto.waste.condition,
+        hasPackaging: createWasteDto.waste.hasPackaging,
         discardDate: discardDateTime,
-        additionalDescription: createWasteDto.waste.descricaoAdicional,
-        images: createWasteDto.waste.imagens || [],
+        additionalDescription: createWasteDto.waste.additionalDescription,
+        images: createWasteDto.waste.images || [],
         userId,
         addressId: address.id,
       })
