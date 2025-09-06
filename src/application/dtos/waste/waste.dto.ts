@@ -2,17 +2,16 @@ import { AddressDto } from '../address/address.dto'
 
 export class WasteDto {
   id: string
-  tipoResiduo: string
-  peso: number
-  quantidade: number
-  unidade: string
-  condicao: string
-  embalagem: string
-  dataDescarte: string
-  horaDescarte: string
+  wasteType: string
+  weight: number
+  quantity: number
+  unit: string
+  condition: string
+  hasPackaging: boolean
+  discardDate: string
   status: string
-  descricaoAdicional?: string
-  imagens?: string[]
+  additionalDescription?: string
+  images?: string[]
   userId: string
   addressId: string
   address?: AddressDto

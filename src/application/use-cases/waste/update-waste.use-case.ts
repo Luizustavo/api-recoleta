@@ -58,38 +58,33 @@ export class UpdateWasteUseCase {
       const updateData: any = {}
 
       if (updateWasteDto.waste) {
-        if (updateWasteDto.waste.tipoResiduo) {
-          updateData.wasteType = updateWasteDto.waste.tipoResiduo
+        if (updateWasteDto.waste.wasteType) {
+          updateData.wasteType = updateWasteDto.waste.wasteType
         }
-        if (updateWasteDto.waste.peso) {
-          updateData.weight = updateWasteDto.waste.peso
+        if (updateWasteDto.waste.weight) {
+          updateData.weight = updateWasteDto.waste.weight
         }
-        if (updateWasteDto.waste.quantidade) {
-          updateData.quantity = updateWasteDto.waste.quantidade
+        if (updateWasteDto.waste.quantity) {
+          updateData.quantity = updateWasteDto.waste.quantity
         }
-        if (updateWasteDto.waste.unidade) {
-          updateData.unit = updateWasteDto.waste.unidade
+        if (updateWasteDto.waste.unit) {
+          updateData.unit = updateWasteDto.waste.unit
         }
-        if (updateWasteDto.waste.condicao) {
-          updateData.condition = updateWasteDto.waste.condicao
+        if (updateWasteDto.waste.condition) {
+          updateData.condition = updateWasteDto.waste.condition
         }
-        if (updateWasteDto.waste.embalagem) {
-          updateData.hasPackaging = updateWasteDto.waste.embalagem === 'sim'
+        if (updateWasteDto.waste.hasPackaging !== undefined) {
+          updateData.hasPackaging = updateWasteDto.waste.hasPackaging
         }
-        if (
-          updateWasteDto.waste.dataDescarte &&
-          updateWasteDto.waste.horaDescarte
-        ) {
-          updateData.discardDate = new Date(
-            `${updateWasteDto.waste.dataDescarte}T${updateWasteDto.waste.horaDescarte}`,
-          )
+        if (updateWasteDto.waste.discardDate) {
+          updateData.discardDate = new Date(updateWasteDto.waste.discardDate)
         }
-        if (updateWasteDto.waste.descricaoAdicional !== undefined) {
+        if (updateWasteDto.waste.additionalDescription !== undefined) {
           updateData.additionalDescription =
-            updateWasteDto.waste.descricaoAdicional
+            updateWasteDto.waste.additionalDescription
         }
-        if (updateWasteDto.waste.imagens !== undefined) {
-          updateData.images = updateWasteDto.waste.imagens
+        if (updateWasteDto.waste.images !== undefined) {
+          updateData.images = updateWasteDto.waste.images
         }
       }
 
