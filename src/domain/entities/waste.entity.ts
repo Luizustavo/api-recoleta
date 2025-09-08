@@ -1,3 +1,6 @@
+import { AddressEntity } from './address.entity'
+import { UserEntity } from './user.entity'
+
 interface Props {
   wasteType: string
   weight: number
@@ -11,6 +14,8 @@ interface Props {
   status?: string
   userId: string
   addressId: string
+  user?: UserEntity
+  address?: AddressEntity
   createdAt?: Date
   updatedAt?: Date
 }
@@ -80,6 +85,14 @@ export class WasteEntity {
 
   get addressId(): string {
     return this.props.addressId
+  }
+
+  get user(): UserEntity | undefined {
+    return this.props.user
+  }
+
+  get address(): AddressEntity | undefined {
+    return this.props.address
   }
 
   get createdAt(): Date {

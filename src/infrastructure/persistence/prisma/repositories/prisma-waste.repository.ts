@@ -24,6 +24,7 @@ export class PrismaWasteRepository implements WasteRepositoryInterface {
     const waste = await this.prisma.waste.findUnique({
       where: { id },
       include: {
+        user: true,
         address: true,
       },
     })
@@ -39,6 +40,7 @@ export class PrismaWasteRepository implements WasteRepositoryInterface {
     const wastes = await this.prisma.waste.findMany({
       where: { userId },
       include: {
+        user: true,
         address: true,
       },
       orderBy: {
@@ -74,6 +76,7 @@ export class PrismaWasteRepository implements WasteRepositoryInterface {
     const wastes = await this.prisma.waste.findMany({
       where,
       include: {
+        user: true,
         address: true,
       },
       orderBy: {

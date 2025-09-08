@@ -1,5 +1,7 @@
 import { WasteEntity } from '../../domain/entities/waste.entity'
 import { WasteDto } from '../dtos/waste/waste.dto'
+import { UserMapper } from './user.mapper'
+import { AddressMapper } from './address.mapper'
 
 export class WasteMapper {
   private constructor() {}
@@ -22,6 +24,16 @@ export class WasteMapper {
     dto.addressId = waste.addressId
     dto.createdAt = waste.createdAt
     dto.updatedAt = waste.updatedAt
+
+    // Mapear informações do usuário, se disponível
+    if (waste.user) {
+      dto.user = UserMapper.toDto(waste.user)
+    }
+
+    // Mapear informações do endereço, se disponível
+    if (waste.address) {
+      dto.address = AddressMapper.toDto(waste.address)
+    }
 
     return dto
   }

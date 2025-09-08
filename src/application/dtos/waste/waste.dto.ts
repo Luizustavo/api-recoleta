@@ -1,4 +1,5 @@
 import { AddressDto } from '../address/address.dto'
+import { UserDto } from '../user/user.dto'
 
 export class WasteDto {
   id: string
@@ -14,7 +15,8 @@ export class WasteDto {
   images?: string[]
   userId: string
   addressId: string
-  address?: AddressDto
+  user?: UserDto
+  address: AddressDto
   createdAt: Date
   updatedAt: Date
 }

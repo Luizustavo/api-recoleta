@@ -19,8 +19,8 @@ export class AddressMapper {
       state: entity.state,
       country: entity.country,
       zipCode: entity.zipCode,
-      longitude: entity.longitude,
-      latitude: entity.latitude,
+      longitude: entity.longitude ? parseFloat(entity.longitude) : undefined,
+      latitude: entity.latitude ? parseFloat(entity.latitude) : undefined,
       userId: entity.userId,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
@@ -47,19 +47,18 @@ export class AddressMapper {
 
   public static toUpdateData(
     request: UpdateAddressDto,
-  ): Partial<AddressEntity> {
-    const updateData: any = {}
-
-    if (request.street !== undefined) updateData.street = request.street
-    if (request.number !== undefined) updateData.number = request.number
-    if (request.city !== undefined) updateData.city = request.city
-    if (request.state !== undefined) updateData.state = request.state
-    if (request.country !== undefined) updateData.country = request.country
-    if (request.zipCode !== undefined) updateData.zipCode = request.zipCode
-    if (request.longitude !== undefined)
-      updateData.longitude = request.longitude
-    if (request.latitude !== undefined) updateData.latitude = request.latitude
-
-    return updateData
+    userId: string,
+  ): AddressEntity {
+    return new AddressEntity({
+      city: request.city,
+      country: request.country,
+      number: request.number,
+      state: request.state,
+      street: request.street,
+      zipCode: request.zipCode,
+      latitude: request.latitude,
+      longitude: request.longitude,
+      userId,
+    })
   }
 }

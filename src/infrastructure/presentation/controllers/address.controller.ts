@@ -60,7 +60,10 @@ export class AddressController {
 
   @Get()
   @ApiOperation({ summary: 'Listar endereços do usuário' })
-  @ApiResponse({ status: 200, description: 'Lista de endereços retornada com sucesso' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de endereços retornada com sucesso',
+  })
   @ApiResponse({ status: 401, description: 'Não autorizado' })
   async findAll(@Request() req: any) {
     const userId = req.user.id

@@ -33,15 +33,15 @@ export class PrismaUserRepository implements IUserRepository {
   @Span('PrismaUserRepository.findAllAsync')
   async findAllAsync(skip?: number, take?: number): Promise<UserEntity[]> {
     const options: { skip?: number; take?: number } = {}
-    
+
     if (skip !== null && skip !== undefined && !isNaN(skip)) {
       options.skip = skip
     }
-    
+
     if (take !== null && take !== undefined && !isNaN(take)) {
       options.take = take
     }
-    
+
     const users = await this.prisma.user.findMany(options)
     return users.map(PrismaUserMapper.toEntity)
   }

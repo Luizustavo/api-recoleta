@@ -52,9 +52,20 @@ export class UserController {
   @Get()
   @ApiBearerAuth('JWT-auth')
   @ApiOperation({ summary: 'Listar todos os usuários' })
-  @ApiQuery({ name: 'skip', required: false, description: 'Número de registros para pular' })
-  @ApiQuery({ name: 'take', required: false, description: 'Número de registros para retornar' })
-  @ApiResponse({ status: 200, description: 'Lista de usuários retornada com sucesso' })
+  @ApiQuery({
+    name: 'skip',
+    required: false,
+    description: 'Número de registros para pular',
+  })
+  @ApiQuery({
+    name: 'take',
+    required: false,
+    description: 'Número de registros para retornar',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de usuários retornada com sucesso',
+  })
   @ApiResponse({ status: 401, description: 'Não autorizado' })
   async findAll(@Query('skip') skip?: string, @Query('take') take?: string) {
     const skipNum = skip ? parseInt(skip, 10) : undefined

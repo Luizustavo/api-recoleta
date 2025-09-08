@@ -33,7 +33,7 @@ export function IsCoordinate(validationOptions?: ValidationOptions) {
           if (isLatitude) {
             return coordinate >= -90 && coordinate <= 90
           }
-          
+
           if (isLongitude) {
             return coordinate >= -180 && coordinate <= 180
           }
@@ -48,7 +48,7 @@ export function IsCoordinate(validationOptions?: ValidationOptions) {
           if (isLatitude) {
             return 'Latitude deve estar entre -90 e 90'
           }
-          
+
           if (isLongitude) {
             return 'Longitude deve estar entre -180 e 180'
           }

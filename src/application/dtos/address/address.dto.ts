@@ -6,8 +6,8 @@ export class AddressDto {
   state: string
   country: string
   zipCode: string
-  longitude?: string
-  latitude?: string
+  longitude?: number
+  latitude?: number
   userId: string
   createdAt: Date
   updatedAt: Date
