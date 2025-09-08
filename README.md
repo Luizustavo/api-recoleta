@@ -13,9 +13,11 @@ Uma API RESTful desenvolvida em NestJS para gerenciamento de resíduos, conectan
 - [Documentação da API](#documentação-da-api)
 - [Autenticação](#autenticação)
 - [Endpoints](#endpoints)
+- [Exemplos de Payload](#exemplos-de-payload)
 - [Modelos de Dados](#modelos-de-dados)
 - [Variáveis de Ambiente](#variáveis-de-ambiente)
 - [Observabilidade](#observabilidade)
+- [Scripts Disponíveis](#scripts-disponíveis)
 - [Contribuição](#contribuição)
 
 ## 📖 Sobre o Projeto
@@ -37,7 +39,8 @@ O **Recoleta API** é uma plataforma que facilita a conexão entre pessoas que p
 
 ### 📍 Gerenciamento de Endereços
 - Cadastro de múltiplos endereços por usuário
-- Suporte a coordenadas geográficas (latitude/longitude)
+- Suporte a coordenadas geográficas com validação (latitude/longitude)
+- Sistema de coordenadas string com conversão automática para cálculos
 - Endereços vinculados aos resíduos
 
 ### ♻️ Gestão de Resíduos
@@ -45,12 +48,15 @@ O **Recoleta API** é uma plataforma que facilita a conexão entre pessoas que p
 - Upload de imagens dos materiais
 - Status de disponibilidade (Disponível, Solicitado, Coletado)
 - Sistema de busca com filtros avançados
-- Busca por proximidade geográfica
+- **Busca por resíduos disponíveis públicos**
+- **Busca por resíduos próprios do usuário logado**
+- **Resposta completa com dados do usuário e endereço**
 
-### 🔍 Sistema de Busca
+### 🔍 Sistema de Busca Avançado
 - Filtros por tipo de resíduo, localização e distância
-- Paginação de resultados
+- Paginação inteligente de resultados
 - Ordenação por proximidade
+- **Retorno enriquecido**: Os endpoints agora retornam objetos completos de usuário e endereço, não apenas IDs
 
 ## 🛠 Tecnologias Utilizadas
 
@@ -61,20 +67,24 @@ O **Recoleta API** é uma plataforma que facilita a conexão entre pessoas que p
 - **MongoDB** - Banco de dados NoSQL
 - **Passport JWT** - Autenticação e autorização
 
-### Observabilidade e Logs
-- **Winston** - Sistema de logs estruturados
-- **OpenTelemetry** - Observabilidade e rastreamento
-- **OTLP gRPC Exporters** - Exportação de métricas e traces
-
-### Documentação e Validação
-- **Swagger/OpenAPI** - Documentação automática da API
-- **Class Validator** - Validação de dados
+### Validação e Conversão
+- **Class Validator** - Validação de dados com decoradores personalizados
 - **Class Transformer** - Transformação de objetos
+- **Validadores customizados** - Sistema de coordenadas com validação de range
 
-### Protocolos
+### Logs
+- **Winston** - Sistema de logs estruturados
+
+### Documentação e Protocolos
+- **Swagger/OpenAPI** - Documentação automática da API
 - **REST API** - Interface HTTP
 - **gRPC** - Comunicação de alta performance
 - **Protocol Buffers** - Serialização de dados
+
+### Arquitetura
+- **Clean Architecture** - Separação clara de responsabilidades
+- **Domain-Driven Design** - Modelagem orientada ao domínio
+- **SOLID Principles** - Princípios de design de software
 
 ## 📋 Pré-requisitos
 
@@ -95,7 +105,7 @@ cd api-recoleta
 
 ### 2. Instale as dependências
 ```bash
-pnpm install
+npm install
 ```
 
 ### 3. Configure as variáveis de ambiente
@@ -115,10 +125,7 @@ JWT_EXPIRES_IN="24h"
 
 # Server
 HTTP_PORT=3004
-GRPC_PORT=5000
 
-# OpenTelemetry (opcional)
-OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4317"
 ```
 
 ### 4. Configure o banco de dados
@@ -134,11 +141,11 @@ npx prisma db push
 
 ```bash
 # Modo desenvolvimento
-pnpm run start:dev
+npm run start:dev
 
 # Modo produção
-pnpm run build
-pnpm run start:prod
+npm run build
+npm run start:prod
 ```
 
 A API estará disponível em:
@@ -244,12 +251,76 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
 | `POST` | `/api/waste` | Cadastrar resíduo |
-| `GET` | `/api/waste` | Listar resíduos do usuário |
-| `GET` | `/api/waste/available` | Buscar resíduos disponíveis |
+| `GET` | `/api/waste/my-wastes` | **Listar resíduos do usuário logado** |
+| `GET` | `/api/waste/available` | **Buscar resíduos disponíveis (público)** |
 | `GET` | `/api/waste/{id}` | Buscar resíduo por ID |
 | `PATCH` | `/api/waste/{id}` | Atualizar resíduo |
 | `DELETE` | `/api/waste/{id}` | Deletar resíduo |
-| `POST` | `/api/waste/{id}/collect` | Solicitar coleta |
+
+### 📋 Parâmetros de Busca
+
+#### GET /api/waste/available
+Busca resíduos disponíveis para coleta com filtros e paginação:
+
+**Query Parameters:**
+- `wasteType` (opcional): Filtrar por tipo de resíduo
+- `location` (opcional): Filtrar por cidade ou estado
+- `condition` (opcional): Filtrar por condição
+- `page` (opcional, padrão: 1): Página da paginação
+- `limit` (opcional, padrão: 10): Itens por página
+
+**Exemplo:**
+```
+GET /api/waste/available?wasteType=ELECTRONICS&location=São Paulo&page=1&limit=5
+```
+
+#### GET /api/waste/my-wastes
+Lista todos os resíduos cadastrados pelo usuário logado:
+
+**Query Parameters:**
+- `page` (opcional, padrão: 1): Página da paginação
+- `limit` (opcional, padrão: 10): Itens por página
+
+**Exemplo:**
+```
+GET /api/waste/my-wastes?page=2&limit=20
+```
+
+### 🎯 Resposta Enriquecida
+
+**Importante:** Os endpoints de busca agora retornam objetos completos ao invés de apenas IDs:
+
+```json
+{
+  "id": "68bc4ee12cb69c49e1224996",
+  "wasteType": "ELECTRONICS",
+  "weight": 1,
+  "quantity": 1,
+  "unit": "KG",
+  "condition": "NEW",
+  "hasPackaging": false,
+  "discardDate": "2025-09-05T15:11:00.000Z",
+  "status": "AVAILABLE",
+  "additionalDescription": "Notebook Dell funcionando",
+  "images": [],
+  "userId": "68bc2e6555d8b97472bb05a9",
+  "addressId": "68bc4ee12cb69c49e1224995",
+  "user": {
+    "id": "68bc2e6555d8b97472bb05a9",
+    "name": "João Silva",
+    "email": "joao@email.com"
+  },
+  "address": {
+    "street": "Rua das Palmeiras",
+    "city": "São Paulo",
+    "state": "SP",
+    "latitude": "-23.550520",
+    "longitude": "-46.633308"
+  },
+  "createdAt": "2025-09-06T15:10:25.075Z",
+  "updatedAt": "2025-09-06T15:10:25.075Z"
+}
+```
 
 ## � Exemplos de Payload
 
@@ -429,8 +500,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   state: string
   country: string
   zipCode: string
-  longitude?: number
-  latitude?: number
+  longitude?: string  // Armazenado como string, convertido para cálculos
+  latitude?: string   // Armazenado como string, convertido para cálculos
   userId: string
   createdAt: Date
   updatedAt: Date
@@ -453,6 +524,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   status: WasteStatus
   userId: string
   addressId: string
+  user?: UserDto      // Objeto completo do usuário (quando disponível)
+  address?: AddressDto // Objeto completo do endereço (quando disponível)
   createdAt: Date
   updatedAt: Date
 }
@@ -505,6 +578,7 @@ A aplicação inclui:
 - **Winston** para logs formatados em JSON
 - Diferentes níveis de log (error, warn, info, debug)
 - Logs rotativos por data
+- Rastreamento de operações críticas
 
 ### OpenTelemetry
 - Rastreamento de requisições HTTP
@@ -516,22 +590,7 @@ A aplicação inclui:
 - Tempo de resposta das requisições
 - Contadores de erro por endpoint
 - Rastreamento de operações do banco de dados
-
-## 🧪 Testes
-
-```bash
-# Testes unitários
-pnpm run test
-
-# Testes E2E
-pnpm run test:e2e
-
-# Cobertura de testes
-pnpm run test:cov
-
-# Testes em modo watch
-pnpm run test:watch
-```
+- Monitoramento de casos de uso
 
 ## 📋 Scripts Disponíveis
 
@@ -548,11 +607,52 @@ pnpm run start:prod     # Inicia em modo produção
 pnpm run lint           # Executa ESLint
 pnpm run format         # Formata código com Prettier
 
+# Testes
+pnpm run test           # Testes unitários
+pnpm run test:e2e       # Testes E2E
+pnpm run test:cov       # Cobertura de testes
+pnpm run test:watch     # Testes em modo watch
+
 # Banco de dados
 npx prisma generate     # Gera o cliente Prisma
 npx prisma db push      # Sincroniza schema com o banco
 npx prisma studio       # Interface visual do banco
 ```
+
+## 🔧 Validações Customizadas
+
+O projeto implementa validadores customizados para garantir a integridade dos dados:
+
+### Coordenadas Geográficas
+- **@IsCoordinate()**: Valida strings de latitude e longitude
+- **Latitude**: Aceita valores entre -90 e +90
+- **Longitude**: Aceita valores entre -180 e +180
+- **Formato**: String que pode ser convertida para número
+
+### Sistema de Coordenadas
+- Armazenamento como **string** no banco de dados
+- Conversão automática para **number** apenas para cálculos
+- Utilities disponíveis em `src/infrastructure/persistence/utils/coordinate.utils.ts`
+
+## 🚀 Melhorias Recentes
+
+### v2.1.0 - Sistema de Coordenadas Otimizado
+- ✅ Migração de coordenadas Float para String no banco
+- ✅ Validador customizado @IsCoordinate para strings
+- ✅ Utilities para conversão e cálculo de distância
+- ✅ Correção de bugs de conversão null/undefined
+
+### v2.2.0 - Endpoints de Resíduos Aprimorados
+- ✅ Novo endpoint `/waste/my-wastes` para resíduos do usuário
+- ✅ Correção de bugs de paginação (NaN values)
+- ✅ Resposta enriquecida com objetos completos de user e address
+- ✅ Melhoria na arquitetura com entidades estendidas
+
+### v2.3.0 - Arquitetura Clean
+- ✅ Implementação de Clean Architecture
+- ✅ Separação clara entre Domain, Application e Infrastructure
+- ✅ Use Cases bem definidos
+- ✅ Mappers para conversão entre camadas
 
 ## 🤝 Contribuição
 
@@ -586,52 +686,12 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 
 ⭐ **Gostou do projeto? Deixe uma estrela!**
 
-## Description
+🔗 **Links Úteis:**
+- [Documentação da API](http://localhost:3004/api) (quando rodando localmente)
+- [NestJS Documentation](https://docs.nestjs.com/)
+- [Prisma Documentation](https://www.prisma.io/docs/)
+- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ pnpm install
-```
-
-## Running the app
-
-```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+📫 **Contato:**
+- GitHub: [@Luizustavo](https://github.com/Luizustavo)
+- Email: luizgustavosantosdasilva@outlook.com
