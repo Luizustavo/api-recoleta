@@ -71,6 +71,11 @@ export class PrismaWasteRepository implements WasteRepositoryInterface {
           ],
         }
       }
+      if (filters.excludeUserId) {
+        where.userId = {
+          not: filters.excludeUserId,
+        }
+      }
     }
 
     const wastes = await this.prisma.waste.findMany({

@@ -13,6 +13,7 @@ export interface WasteRepositoryInterface {
     longitude?: number
     page?: number
     limit?: number
+    excludeUserId?: string
   }): Promise<WasteEntity[]>
   update(id: string, waste: Partial<WasteEntity>): Promise<WasteEntity>
   delete(id: string): Promise<void>

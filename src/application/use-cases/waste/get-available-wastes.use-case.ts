@@ -17,6 +17,7 @@ interface GetAvailableWastesRequest {
     condition?: string
   }
   pagination: PaginationRequest
+  userId?: string
 }
 
 @Injectable()
@@ -36,7 +37,12 @@ export class GetAvailableWastesUseCase {
         `Getting available wastes with filters: ${JSON.stringify(request.filters)}`,
       )
 
-      const wastes = await this.wasteRepository.findAvailable(request.filters)
+      const filters = {
+        ...request.filters,
+        ...(request.userId && { excludeUserId: request.userId }),
+      }
+
+      const wastes = await this.wasteRepository.findAvailable(filters)
 
       const wasteDtos = wastes.map((waste) => WasteMapper.toDto(waste))
 
