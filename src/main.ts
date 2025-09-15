@@ -51,6 +51,7 @@ async function bootstrap() {
     .addTag('user', 'Endpoints de usuários')
     .addTag('address', 'Endpoints de endereços')
     .addTag('waste', 'Endpoints de resíduos')
+    .addTag('collection', 'Endpoints de coleta de resíduos')
     .build()
 
   const document = SwaggerModule.createDocument(app, config)

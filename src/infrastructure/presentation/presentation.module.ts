@@ -7,6 +7,7 @@ import { UserController } from './controllers/user.controller'
 import { AuthController } from './controllers/auth.controller'
 import { AddressController } from './controllers/address.controller'
 import { WasteController } from './controllers/waste.controller'
+import { CollectionController } from './controllers/collection.controller'
 import { CreateUserUseCase } from '@/application/use-cases/user/create-user.use-case'
 import { GetAllUsersUseCase } from '@/application/use-cases/user/get-all-users.use-case'
 import { GetUserByIdUseCase } from '@/application/use-cases/user/get-user-by-id.use-case'
@@ -25,6 +26,8 @@ import { GetAvailableWastesUseCase } from '@/application/use-cases/waste/get-ava
 import { GetUserWastesUseCase } from '@/application/use-cases/waste/get-user-wastes.use-case'
 import { UpdateWasteUseCase } from '@/application/use-cases/waste/update-waste.use-case'
 import { DeleteWasteUseCase } from '@/application/use-cases/waste/delete-waste.use-case'
+import { SignCollectionUseCase } from '@/application/use-cases/collection/sign-collection.use-case'
+import { GetUserCollectionsUseCase } from '@/application/use-cases/collection/get-user-collections.use-case'
 
 @Module({
   imports: [
@@ -37,6 +40,7 @@ import { DeleteWasteUseCase } from '@/application/use-cases/waste/delete-waste.u
     AuthController,
     AddressController,
     WasteController,
+    CollectionController,
   ],
   providers: [
     CreateUserUseCase,
@@ -57,6 +61,8 @@ import { DeleteWasteUseCase } from '@/application/use-cases/waste/delete-waste.u
     GetUserWastesUseCase,
     UpdateWasteUseCase,
     DeleteWasteUseCase,
+    SignCollectionUseCase,
+    GetUserCollectionsUseCase,
   ],
 })
 export class PresentationModule {}
