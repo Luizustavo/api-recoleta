@@ -252,7 +252,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 |--------|----------|-----------|
 | `POST` | `/api/waste` | Cadastrar resíduo |
 | `GET` | `/api/waste/my-wastes` | **Listar resíduos do usuário logado** |
-| `GET` | `/api/waste/available` | **Buscar resíduos disponíveis (público)** |
+| `GET` | `/api/waste/available` | **Buscar resíduos disponíveis para coleta** |
 | `GET` | `/api/waste/{id}` | Buscar resíduo por ID |
 | `PATCH` | `/api/waste/{id}` | Atualizar resíduo |
 | `DELETE` | `/api/waste/{id}` | Deletar resíduo |
@@ -260,7 +260,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ### 📋 Parâmetros de Busca
 
 #### GET /api/waste/available
-Busca resíduos disponíveis para coleta com filtros e paginação:
+Busca resíduos disponíveis para coleta com filtros e paginação. Exclui automaticamente os resíduos criados pelo usuário logado:
 
 **Query Parameters:**
 - `wasteType` (opcional): Filtrar por tipo de resíduo

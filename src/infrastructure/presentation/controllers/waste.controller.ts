@@ -87,7 +87,9 @@ export class WasteController {
   }
 
   @Get('available')
-  @ApiOperation({ summary: 'Listar resíduos disponíveis' })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Listar resíduos disponíveis para coleta' })
   @ApiQuery({
     name: 'wasteType',
     required: false,
@@ -105,8 +107,13 @@ export class WasteController {
     required: false,
     description: 'Limite de registros por página',
   })
-  @ApiResponse({ status: 200, description: 'Lista de resíduos disponíveis' })
+  @ApiResponse({
+    status: 200,
+    description: 'Lista de resíduos disponíveis para coleta',
+  })
+  @ApiResponse({ status: 401, description: 'Não autorizado' })
   async getAvailable(
+    @Request() req: any,
     @Query('wasteType') wasteType?: string,
     @Query('location') location?: string,
     @Query('condition') condition?: string,
@@ -126,6 +133,7 @@ export class WasteController {
     const result = await this.getAvailableWastesUseCase.execute({
       filters: Object.keys(filters).length > 0 ? filters : undefined,
       pagination,
+      userId: req.user.id,
     })
     return result
   }
