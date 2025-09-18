@@ -1,8 +1,9 @@
+<a name="top"></a>
 # 🌱 Recoleta API
 
 Uma API RESTful desenvolvida em NestJS para gerenciamento de resíduos, conectando pessoas que desejam descartar materiais com coletores interessados em reutilizá-los.
 
-## 📋 Índice
+## Índice
 
 - [Sobre o Projeto](#sobre-o-projeto)
 - [Funcionalidades](#funcionalidades)
@@ -20,7 +21,7 @@ Uma API RESTful desenvolvida em NestJS para gerenciamento de resíduos, conectan
 - [Scripts Disponíveis](#scripts-disponíveis)
 - [Contribuição](#contribuição)
 
-## 📖 Sobre o Projeto
+## Sobre o Projeto 
 
 O **Recoleta API** é uma plataforma que facilita a conexão entre pessoas que possuem resíduos para descartar e coletores que podem reutilizar esses materiais. O sistema permite cadastrar resíduos com informações detalhadas sobre tipo, condição, localização e disponibilidade para coleta.
 
@@ -30,7 +31,14 @@ O **Recoleta API** é uma plataforma que facilita a conexão entre pessoas que p
 - 📍 **Localização**: Sistema de busca por proximidade geográfica
 - 📱 **Simplicidade**: Interface intuitiva e fácil de usar
 
-## ✨ Funcionalidades
+---
+
+[⬆️ Voltar ao topo](#top)
+
+---
+
+
+## Funcionalidades
 
 ### 👤 Gestão de Usuários
 - Registro e autenticação de usuários
@@ -58,7 +66,14 @@ O **Recoleta API** é uma plataforma que facilita a conexão entre pessoas que p
 - Ordenação por proximidade
 - **Retorno enriquecido**: Os endpoints agora retornam objetos completos de usuário e endereço, não apenas IDs
 
-## 🛠 Tecnologias Utilizadas
+---
+
+[⬆️ Voltar ao topo](#top)
+
+---
+
+
+## Tecnologias Utilizadas
 
 ### Backend
 - **NestJS** - Framework Node.js progressivo
@@ -86,7 +101,13 @@ O **Recoleta API** é uma plataforma que facilita a conexão entre pessoas que p
 - **Domain-Driven Design** - Modelagem orientada ao domínio
 - **SOLID Principles** - Princípios de design de software
 
-## 📋 Pré-requisitos
+---
+
+[⬆️ Voltar ao topo](#top)
+
+---
+
+## Pré-requisitos
 
 Antes de começar, certifique-se de ter instalado em sua máquina:
 
@@ -95,7 +116,13 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 - **MongoDB** (local ou serviço na nuvem)
 - **Git** (para controle de versão)
 
-## 🚀 Instalação e Execução
+---
+
+[⬆️ Voltar ao topo](#top)
+
+---
+
+## Instalação e Execução
 
 ### 1. Clone o repositório
 ```bash
@@ -153,7 +180,7 @@ A API estará disponível em:
 - **Documentação Swagger**: `http://localhost:3004/api`
 - **gRPC Server**: `localhost:5000`
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 src/
@@ -174,8 +201,13 @@ src/
 ├── app.module.ts           # Módulo principal
 └── main.ts                 # Ponto de entrada da aplicação
 ```
+---
 
-## 📚 Documentação da API
+[⬆️ Voltar ao topo](#top)
+
+---
+
+## Documentação da API
 
 ### Swagger/OpenAPI
 A documentação completa da API está disponível em:
@@ -186,7 +218,13 @@ http://localhost:3004/api
 ### Especificação OpenAPI
 O arquivo de especificação está em: `docs/recoleta-api-spec.json`
 
-## 🔐 Autenticação
+---
+
+[⬆️ Voltar ao topo](#top)
+
+---
+
+## Autenticação
 
 A API utiliza autenticação JWT (JSON Web Token). Para acessar endpoints protegidos:
 
@@ -218,7 +256,13 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
-## 🔗 Endpoints
+---
+
+[⬆️ Voltar ao topo](#top)
+
+---
+
+## Endpoints
 
 ### 🔓 Endpoints Públicos
 
@@ -321,8 +365,13 @@ GET /api/waste/my-wastes?page=2&limit=20
   "updatedAt": "2025-09-06T15:10:25.075Z"
 }
 ```
+---
 
-## � Exemplos de Payload
+[⬆️ Voltar ao topo](#top)
+
+---
+
+## Exemplos de Payload
 
 ### Criar Resíduo - POST /api/waste
 
@@ -474,7 +523,13 @@ GET /api/waste/my-wastes?page=2&limit=20
 - Todos os campos do `address` são obrigatórios exceto `complement`, `reference` e `main`
 - Se `main` for `true`, este será o endereço principal do usuário
 
-## �📊 Modelos de Dados
+---
+
+[⬆️ Voltar ao topo](#top)
+
+---
+
+## Modelos de Dados
 
 ### Usuário
 ```typescript
@@ -559,7 +614,13 @@ GET /api/waste/my-wastes?page=2&limit=20
 - `REQUESTED` - Solicitado
 - `COLLECTED` - Coletado
 
-## 🔧 Variáveis de Ambiente
+---
+
+[⬆️ Voltar ao topo](#top)
+
+---
+
+## Variáveis de Ambiente
 
 | Variável | Descrição | Valor Padrão |
 |----------|-----------|---------------|
@@ -570,7 +631,13 @@ GET /api/waste/my-wastes?page=2&limit=20
 | `GRPC_PORT` | Porta do servidor gRPC | `5000` |
 | `OTEL_EXPORTER_OTLP_ENDPOINT` | Endpoint OpenTelemetry | - |
 
-## 📈 Observabilidade
+---
+
+[⬆️ Voltar ao topo](#top)
+
+---
+
+## Observabilidade
 
 A aplicação inclui:
 
@@ -592,7 +659,13 @@ A aplicação inclui:
 - Rastreamento de operações do banco de dados
 - Monitoramento de casos de uso
 
-## 📋 Scripts Disponíveis
+---
+
+[⬆️ Voltar ao topo](#top)
+
+---
+
+## Scripts Disponíveis
 
 ```bash
 # Desenvolvimento
@@ -654,7 +727,13 @@ O projeto implementa validadores customizados para garantir a integridade dos da
 - ✅ Use Cases bem definidos
 - ✅ Mappers para conversão entre camadas
 
-## 🤝 Contribuição
+---
+
+[⬆️ Voltar ao topo](#top)
+
+---
+
+## Contribuição
 
 1. Faça um fork do projeto
 2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
@@ -674,6 +753,12 @@ refactor: refatoração de código
 test: adiciona ou modifica testes
 ```
 
+---
+
+[⬆️ Voltar ao topo](#top)
+
+---
+
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
@@ -681,6 +766,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## 👥 Autores
 
 - **Luiz Gustavo** - *Desenvolvimento inicial* - [Luizustavo](https://github.com/Luizustavo)
+- **Alexandre Alvarenga** - *Desenvolvedor* - [wakenedo](https://github.com/wakenedo)
 
 ---
 
