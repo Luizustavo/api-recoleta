@@ -16,7 +16,14 @@ const APP_ROUTE_PREFIX = 'api'
 
 async function bootstrap() {
   const logger = WinstonModule.createLogger(winstonConfig)
-  const app = await NestFactory.create(AppModule, { logger })
+  const app = await NestFactory.create(AppModule, { cors: true, logger })
+
+  app.enableCors({
+    origin: ['http://localhost:3000'], // your Next.js frontend
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  })
 
   app.useGlobalFilters(new GenericExceptionFilter(), new HttpExceptionFilter())
 
@@ -58,7 +65,6 @@ async function bootstrap() {
   SwaggerModule.setup(APP_ROUTE_PREFIX, app, document)
 
   app.connectMicroservice<MicroserviceOptions>(grpcClientOptions)
-  await app.startAllMicroservices()
   logger.debug(`GRPC server is listening`, grpcClientOptions.options)
 
   await app.listen(Number(process.env.HTTP_PORT) || 3004)

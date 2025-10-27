@@ -27,6 +27,25 @@ export class AuthService {
     return { access_token, user: payload }
   }
 
+  async oAuthLogin(profile: {
+    provider: 'google' | 'facebook'
+    providerId: string
+    email: string
+    name: string
+  }) {
+    let user = await this.userRepository.findAsync(profile.email)
+
+    if (!user) {
+      user = new (user.constructor as any)({
+        name: profile.name,
+        email: profile.email,
+        provider: profile.provider,
+        providerId: profile.providerId,
+      })
+      await this.userRepository.saveAsync(user)
+    }
+  }
+
   async validateToken(token: string) {
     try {
       const payload = await this.jwtService.verifyAsync(token)
