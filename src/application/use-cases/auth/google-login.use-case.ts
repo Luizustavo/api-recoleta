@@ -8,8 +8,8 @@ import { AxiosResponse } from 'axios'
 @Injectable()
 export class GoogleLoginUseCase {
   constructor(
-    private readonly authService: AuthService,
     private readonly httpService: HttpService,
+    private readonly authService: AuthService,
   ) {}
   async execute(dto: GoogleLoginDto) {
     const { token } = dto

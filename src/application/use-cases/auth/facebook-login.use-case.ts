@@ -7,8 +7,8 @@ import { lastValueFrom } from 'rxjs'
 @Injectable()
 export class FacebookLoginUseCase {
   constructor(
-    private readonly authService: AuthService,
     private readonly httpService: HttpService,
+    private readonly authService: AuthService,
   ) {}
 
   async execute(dto: FacebookLoginDto) {
