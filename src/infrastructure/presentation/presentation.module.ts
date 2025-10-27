@@ -28,6 +28,8 @@ import { UpdateWasteUseCase } from '@/application/use-cases/waste/update-waste.u
 import { DeleteWasteUseCase } from '@/application/use-cases/waste/delete-waste.use-case'
 import { SignCollectionUseCase } from '@/application/use-cases/collection/sign-collection.use-case'
 import { GetUserCollectionsUseCase } from '@/application/use-cases/collection/get-user-collections.use-case'
+import { GoogleLoginUseCase } from '@/application/use-cases/auth/google-login.use-case'
+import { FacebookLoginUseCase } from '@/application/use-cases/auth/facebook-login.use-case'
 
 @Module({
   imports: [
@@ -43,6 +45,8 @@ import { GetUserCollectionsUseCase } from '@/application/use-cases/collection/ge
     CollectionController,
   ],
   providers: [
+    GoogleLoginUseCase,
+    FacebookLoginUseCase,
     CreateUserUseCase,
     GetAllUsersUseCase,
     GetUserByIdUseCase,
