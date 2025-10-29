@@ -28,11 +28,16 @@ import { UpdateWasteUseCase } from '@/application/use-cases/waste/update-waste.u
 import { DeleteWasteUseCase } from '@/application/use-cases/waste/delete-waste.use-case'
 import { SignCollectionUseCase } from '@/application/use-cases/collection/sign-collection.use-case'
 import { GetUserCollectionsUseCase } from '@/application/use-cases/collection/get-user-collections.use-case'
+import { AzureBlobModule } from '../storage/azure-blob.module'
+import { WasteImageController } from './controllers/waste-image.controller'
+
+
 
 @Module({
   imports: [
     PersistenceModule,
     AuthModule,
+    AzureBlobModule,
     WinstonModule.forRoot(winstonConfig),
   ],
   controllers: [
@@ -41,6 +46,7 @@ import { GetUserCollectionsUseCase } from '@/application/use-cases/collection/ge
     AddressController,
     WasteController,
     CollectionController,
+    WasteImageController
   ],
   providers: [
     CreateUserUseCase,
