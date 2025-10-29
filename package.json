@@ -61,6 +61,7 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "sharp": "^0.34.4",
+    "uuid": "^9.0.1",
     "winston": "^3.14.2"
   },
   "devDependencies": {
@@ -71,6 +72,7 @@
     "@types/jest": "^29.5.13",
     "@types/node": "^22.5.5",
     "@types/supertest": "^6.0.2",
+    "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^8.6.0",
     "@typescript-eslint/parser": "^8.6.0",
     "eslint": "^9.11.0",
