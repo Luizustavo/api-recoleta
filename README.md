@@ -669,28 +669,42 @@ A aplicação inclui:
 
 ```bash
 # Desenvolvimento
-pnpm run start:dev      # Inicia em modo desenvolvimento com watch
-pnpm run start:debug    # Inicia em modo debug
+npm run start:dev      # Inicia em modo desenvolvimento com watch
+npm run start:debug    # Inicia em modo debug
 
 # Produção
-pnpm run build          # Compila o projeto
-pnpm run start:prod     # Inicia em modo produção
+npm run build          # Compila o projeto
+npm run start:prod     # Inicia em modo produção
 
 # Qualidade de código
-pnpm run lint           # Executa ESLint
-pnpm run format         # Formata código com Prettier
+npm run lint           # Executa ESLint
+npm run format         # Formata código com Prettier
 
 # Testes
-pnpm run test           # Testes unitários
-pnpm run test:e2e       # Testes E2E
-pnpm run test:cov       # Cobertura de testes
-pnpm run test:watch     # Testes em modo watch
+npm test               # Executa todos os testes
+npm run test:watch     # Testes em modo watch (útil durante desenvolvimento)
+npm run test:cov       # Executa testes com cobertura de código
+npm run test:e2e       # Testes E2E (end-to-end)
+npm run test:debug     # Executa testes em modo debug
 
 # Banco de dados
 npx prisma generate     # Gera o cliente Prisma
 npx prisma db push      # Sincroniza schema com o banco
 npx prisma studio       # Interface visual do banco
 ```
+
+### 🧪 Testes
+
+Este projeto utiliza **Jest** como framework de testes. Para mais informações sobre como escrever e executar testes, consulte:
+
+- 📖 [TESTING.md](TESTING.md) - Guia completo de testes
+- 📋 [JEST_SETUP_SUMMARY.md](JEST_SETUP_SUMMARY.md) - Resumo da configuração do Jest
+
+**Cobertura de Testes:**
+```bash
+npm run test:cov
+```
+O relatório será gerado em `coverage/lcov-report/index.html`
 
 ## 🔧 Validações Customizadas
 
