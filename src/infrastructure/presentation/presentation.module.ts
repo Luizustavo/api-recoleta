@@ -30,11 +30,15 @@ import { SignCollectionUseCase } from '@/application/use-cases/collection/sign-c
 import { GetUserCollectionsUseCase } from '@/application/use-cases/collection/get-user-collections.use-case'
 import { GoogleLoginUseCase } from '@/application/use-cases/auth/google-login.use-case'
 import { FacebookLoginUseCase } from '@/application/use-cases/auth/facebook-login.use-case'
+import { AzureBlobModule } from '../storage/azure-blob.module'
+import { WasteImageController } from './controllers/waste-image.controller'
+
 
 @Module({
   imports: [
     PersistenceModule,
     AuthModule,
+    AzureBlobModule,
     WinstonModule.forRoot(winstonConfig),
   ],
   controllers: [
@@ -43,6 +47,7 @@ import { FacebookLoginUseCase } from '@/application/use-cases/auth/facebook-logi
     AddressController,
     WasteController,
     CollectionController,
+    WasteImageController
   ],
   providers: [
     GoogleLoginUseCase,
