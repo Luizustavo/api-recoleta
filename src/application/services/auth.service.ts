@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { IUserRepository } from '@/domain/repositories/user-repository.interface'
 import { LoginDto } from '@/application/dtos/auth/login.dto'
+import { UserEntity } from '@/domain/entities/user.entity'
 import * as bcrypt from 'bcrypt'
 
 @Injectable()
@@ -36,7 +37,7 @@ export class AuthService {
     let user = await this.userRepository.findAsync(profile.email)
 
     if (!user) {
-      user = new (user.constructor as any)({
+      user = new UserEntity({
         name: profile.name,
         email: profile.email,
         provider: profile.provider,
@@ -44,6 +45,10 @@ export class AuthService {
       })
       await this.userRepository.saveAsync(user)
     }
+
+    const payload = { id: user.id, email: user.email, name: user.name }
+    const access_token = await this.jwtService.signAsync(payload)
+    return { access_token, user: payload }
   }
 
   async validateToken(token: string) {
