@@ -2,6 +2,8 @@ interface Props {
   name: string
   email: string
   password?: string
+  provider?: 'google' | 'facebook' | 'local'
+  providerId?: string
 }
 
 export class UserEntity {
@@ -27,5 +29,13 @@ export class UserEntity {
 
   get password(): string | undefined {
     return this.props.password
+  }
+
+  get provider(): string | undefined {
+    return this.props.provider
+  }
+
+  get providerId(): string | undefined {
+    return this.props.providerId
   }
 }

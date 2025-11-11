@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { IUserRepository } from '@/domain/repositories/user-repository.interface'
 import { LoginDto } from '@/application/dtos/auth/login.dto'
+import { UserEntity } from '@/domain/entities/user.entity'
 import * as bcrypt from 'bcrypt'
 
 @Injectable()
@@ -22,6 +23,29 @@ export class AuthService {
   async login(loginDto: LoginDto) {
     const user = await this.validateUser(loginDto.email, loginDto.password)
     if (!user) throw new UnauthorizedException('Credenciais inválidas')
+    const payload = { id: user.id, email: user.email, name: user.name }
+    const access_token = await this.jwtService.signAsync(payload)
+    return { access_token, user: payload }
+  }
+
+  async oAuthLogin(profile: {
+    provider: 'google' | 'facebook'
+    providerId: string
+    email: string
+    name: string
+  }) {
+    let user = await this.userRepository.findAsync(profile.email)
+
+    if (!user) {
+      user = new UserEntity({
+        name: profile.name,
+        email: profile.email,
+        provider: profile.provider,
+        providerId: profile.providerId,
+      })
+      await this.userRepository.saveAsync(user)
+    }
+
     const payload = { id: user.id, email: user.email, name: user.name }
     const access_token = await this.jwtService.signAsync(payload)
     return { access_token, user: payload }
