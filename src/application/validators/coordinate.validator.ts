@@ -21,8 +21,8 @@ export function IsCoordinate(validationOptions?: ValidationOptions) {
             return false
           }
 
-          const coordinate = parseFloat(value)
-          if (isNaN(coordinate)) {
+          const coordinate = Number.parseFloat(value)
+          if (Number.isNaN(coordinate)) {
             return false
           }
 
@@ -72,8 +72,8 @@ export function isValidCoordinate(
 ): boolean {
   if (typeof coordinate !== 'string') return false
 
-  const num = parseFloat(coordinate)
-  if (isNaN(num)) return false
+  const num = Number.parseFloat(coordinate)
+  if (Number.isNaN(num)) return false
 
   if (type === 'latitude') {
     return num >= -90 && num <= 90

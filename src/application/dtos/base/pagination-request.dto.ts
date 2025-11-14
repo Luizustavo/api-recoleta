@@ -5,14 +5,14 @@ import { Transform } from 'class-transformer'
 
 export class PaginationRequest {
   @ApiPropertyOptional()
-  @Transform(({ value }) => parseInt(value))
+  @Transform(({ value }) => Number.parseInt(value))
   @IsNumber()
   @IsOptional()
   @Min(1)
   page?: number = 1
 
   @ApiPropertyOptional()
-  @Transform(({ value }) => parseInt(value))
+  @Transform(({ value }) => Number.parseInt(value))
   @IsNumber()
   @IsOptional()
   @Min(1)

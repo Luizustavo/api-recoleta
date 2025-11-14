@@ -68,12 +68,12 @@ export class UserController {
   })
   @ApiResponse({ status: 401, description: 'Não autorizado' })
   async findAll(@Query('skip') skip?: string, @Query('take') take?: string) {
-    const skipNum = skip ? parseInt(skip, 10) : undefined
-    const takeNum = take ? parseInt(take, 10) : undefined
+    const skipNum = skip ? Number.parseInt(skip, 10) : undefined
+    const takeNum = take ? Number.parseInt(take, 10) : undefined
 
     return await this.getAllUsersUseCase.execute({
-      skip: isNaN(skipNum) ? undefined : skipNum,
-      take: isNaN(takeNum) ? undefined : takeNum,
+      skip: Number.isNaN(skipNum) ? undefined : skipNum,
+      take: Number.isNaN(takeNum) ? undefined : takeNum,
     })
   }
 
