@@ -19,8 +19,12 @@ export class AddressMapper {
       state: entity.state,
       country: entity.country,
       zipCode: entity.zipCode,
-      longitude: entity.longitude ? parseFloat(entity.longitude) : undefined,
-      latitude: entity.latitude ? parseFloat(entity.latitude) : undefined,
+      longitude: entity.longitude
+        ? Number.parseFloat(entity.longitude)
+        : undefined,
+      latitude: entity.latitude
+        ? Number.parseFloat(entity.latitude)
+        : undefined,
       userId: entity.userId,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,

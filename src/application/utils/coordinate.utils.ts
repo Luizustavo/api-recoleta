@@ -17,9 +17,9 @@ export function coordinateToNumber(
     throw new Error(`${type} is required`)
   }
 
-  const numCoordinate = parseFloat(coordinate)
+  const numCoordinate = Number.parseFloat(coordinate)
 
-  if (isNaN(numCoordinate)) {
+  if (Number.isNaN(numCoordinate)) {
     throw new Error(`Invalid ${type}: must be a valid number`)
   }
 

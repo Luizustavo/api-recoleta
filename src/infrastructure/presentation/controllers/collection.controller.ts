@@ -79,8 +79,8 @@ export class CollectionController {
   ) {
     const userId = req.user.id
     const pagination = new PaginationRequest()
-    pagination.page = page ? parseInt(page, 10) : 1
-    pagination.limit = limit ? parseInt(limit, 10) : 10
+    pagination.page = page ? Number.parseInt(page, 10) : 1
+    pagination.limit = limit ? Number.parseInt(limit, 10) : 10
 
     return this.getUserCollectionsUseCase.execute({
       userId,

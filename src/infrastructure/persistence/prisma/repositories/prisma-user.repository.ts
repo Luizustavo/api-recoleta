@@ -34,11 +34,11 @@ export class PrismaUserRepository implements IUserRepository {
   async findAllAsync(skip?: number, take?: number): Promise<UserEntity[]> {
     const options: { skip?: number; take?: number } = {}
 
-    if (skip !== null && skip !== undefined && !isNaN(skip)) {
+    if (skip !== null && skip !== undefined && !Number.isNaN(skip)) {
       options.skip = skip
     }
 
-    if (take !== null && take !== undefined && !isNaN(take)) {
+    if (take !== null && take !== undefined && !Number.isNaN(take)) {
       options.take = take
     }
 
