@@ -18,11 +18,33 @@ async function bootstrap() {
   const logger = WinstonModule.createLogger(winstonConfig)
   const app = await NestFactory.create(AppModule, { cors: true, logger })
 
+  // Configure CORS with environment-based origins
+  const allowedOrigins = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(',').map((origin) => origin.trim())
+    : ['http://localhost:3000']
+
   app.enableCors({
-    origin: ['http://localhost:3000'], // your Next.js frontend
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, Postman, etc.)
+      if (!origin) return callback(null, true)
+
+      if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+        return callback(null, true)
+      }
+
+      return callback(new Error('Not allowed by CORS'))
+    },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'Accept',
+      'Origin',
+      'X-Requested-With',
+    ],
     credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   })
 
   app.useGlobalFilters(new GenericExceptionFilter(), new HttpExceptionFilter())
